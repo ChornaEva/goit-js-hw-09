@@ -1,13 +1,21 @@
-1. получить доступ к кнопкам старт и стоп
-2. повесить на кнопки старт и стоп слушателей события по клику
-
-3. при нажатии на кнопку старт запускать сетинтервал, который принимает функцию, которая меняет цвет фона боди и второй аргумент 1000 милисекунд.
-3.1. цвет меняется на случайное значение используя инлайн стиль
-3.2. Для генерации случайного цвета используй функцию getRandomHexColor.
+const bodyNode = document.querySelector('body');
+const startButton = document.querySelector('[data-start]');
+const stopButton = document.querySelector('[data-stop]');
+let timerId = null;
 
 function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 }
 
-3.3. Сделай так, чтобы пока изменение темы запушено, кнопка «Start» была не активна (disabled).
-4. При нажатии на кнопку «Stop», изменение цвета фона должно останавливаться.
+startButton.addEventListener('click', (event) => {
+  startButton.disabled = true;
+
+  timerId = setInterval(() => {
+    bodyNode.style.backgroundColor = getRandomHexColor();
+  }, 1000)
+});
+
+stopButton.addEventListener('click', () => {
+  startButton.disabled = false;
+  clearTimeout(timerId);
+})
