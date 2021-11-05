@@ -1,6 +1,8 @@
 import '/css/common.css';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+require("flatpickr/dist/themes/dark.css");
+import Notiflix from 'notiflix';
 
 const startButton = document.querySelector('[data-start]');
 const inputNode = document.querySelector('#datetime-picker');
@@ -10,23 +12,22 @@ const hoursNode = document.querySelector('[data-hours]');
 const minutesNode = document.querySelector('[data-minutes]');
 const secondsNode = document.querySelector('[data-seconds]');
 
-// обьявила глобальные переменные (вопрос с карент тайм)
 let intervalId = null;
 let selectedTime = null;
-let currentTime = Date.now();
+startButton.disabled = true;
 
-// добавила календарь
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
+  
     onClose(selectedDates) {
         selectedTime = selectedDates[0].getTime();
 
-        if (selectedTime < currentTime) {
+        if (selectedTime === null || selectedTime <= Date.now()) { 
             startButton.disabled = true;
-            return window.alert("Please choose a date in the future");
+            Notiflix.Notify.failure("Please choose a date in the future");
         }
         else {
             startButton.disabled = false;
@@ -36,18 +37,22 @@ const options = {
 
 flatpickr("#datetime-picker", options);
 
-// описала запуск таймера
 const timer = {
     start() {
         startButton.disabled = true;
+        
         intervalId = setInterval(() => {
-            currentTime = Date.now();
+            const currentTime = Date.now();
             const deltaTime = selectedTime - currentTime;
             const time = convertMs(deltaTime);
-            
-            updateClockface(time);
-        }, 1000);
 
+            if (deltaTime > 0) {
+                updateClockface(time);
+            
+            } else {
+                clearInterval(intervalId);
+        };   
+        }, 1000);
     },
 };
 
