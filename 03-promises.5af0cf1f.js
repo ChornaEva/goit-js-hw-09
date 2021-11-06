@@ -5,4 +5,4 @@ var t,e=arguments[3];!function(e,i){"function"==typeof t&&t.amd?t([],function(){
 },{}],"GyVV":[function(require,module,exports) {
 "use strict";var e=t(require("notiflix"));function t(e){return e&&e.__esModule?e:{default:e}}const i=document.querySelector(".form");let a,n,o;function r(e,t){return Math.random()>.3?Promise.resolve({position:e,delay:t}):Promise.reject({position:e,delay:t})}function u(t,i,a){for(let n=1;n<=t;n+=1)r(n,i).then(({position:t,delay:i})=>{setTimeout(()=>{e.default.Notify.success(`✅ Fulfilled promise ${t} in ${i}ms`)},i)}).catch(({position:t,delay:i})=>{setTimeout(()=>{e.default.Notify.failure(`❌ Rejected promise ${t} in ${i}ms`)},i)}),i+=a}i.addEventListener("input",e=>{"delay"===e.target.name&&(o=+e.target.value),"step"===e.target.name&&(a=+e.target.value),"amount"===e.target.name&&(n=+e.target.value)}),i.addEventListener("submit",e=>{e.preventDefault(),u(n,o,a)});
 },{"notiflix":"ja4j"}]},{},["GyVV"], null)
-//# sourceMappingURL=/goit-js-hw-08/03-promises.5af0cf1f.js.map
+//# sourceMappingURL=/goit-js-hw-09/03-promises.5af0cf1f.js.map
